@@ -1,0 +1,12 @@
+import { Card, CardContent } from "@/components/ui/card"; import { Button } from "@/components/ui/button"; import { useState } from "react";
+
+export default function AchadinhosApp() { const [cart, setCart] = useState([]); const produtos = [ { nome: "Blusa feminina", preco: 15 }, { nome: "Kit papelaria", preco: 15 }, { nome: "Toalha de banho", preco: 15 }, { nome: "Carrinho de brinquedo", preco: 15 } ];
+
+const adicionarAoCarrinho = (produto) => { setCart([...cart, produto]); };
+
+const gerarMensagemWhatsApp = () => { const lista = cart.map(p => - ${p.nome} (R$${p.preco})).join("\n"); const texto = Olá! Quero os seguintes produtos:\n${lista}; const url = https://wa.me/5531973436664?text=${encodeURIComponent(texto)}; window.open(url, "_blank"); };
+
+return ( <div className="p-4 space-y-4 text-center"> <h1 className="text-2xl font-bold text-pink-600">🛍️ Achadinhos da Sophi</h1> <p className="text-sm text-gray-600">Produtos incríveis a partir de R$15,00!</p> <div className="grid grid-cols-2 gap-4"> {produtos.map((produto, index) => ( <Card key={index} className="bg-pink-50"> <CardContent className="p-4"> <p className="font-semibold">{produto.nome}</p> <p className="text-sm">R$ {produto.preco.toFixed(2)}</p> <Button onClick={() => adicionarAoCarrinho(produto)} className="mt-2 w-full bg-pink-500 hover:bg-pink-600 text-white" > Quero esse! </Button> </CardContent> </Card> ))} </div> {cart.length > 0 && ( <div className="mt-6"> <h2 className="text-lg font-bold">🛒 Meus Achadinhos</h2> <ul className="text-left mt-2"> {cart.map((item, i) => ( <li key={i}>• {item.nome}</li> ))} </ul> <Button
+onClick={gerarMensagemWhatsApp}
+className="mt-4 bg-green-500 hover:bg-green-600 text-white"
+> Finalizar pedido no WhatsApp </Button> </div> )} <div className="mt-6 flex justify-center gap-4"> <Button onClick={() => window.open("https://www.instagram.com/achadim_dasoh", "_blank")} className="bg-gradient-to-r from-pink-400 to-pink-600 text-white" > Ver no Instagram </Button> <Button onClick={() => window.open("https://chat.whatsapp.com/G5guTIBNM0S1Ko7SZjSE6K", "_blank")} className="bg-green-600 text-white" > Grupo no WhatsApp </Button> </div> </div> ); }
